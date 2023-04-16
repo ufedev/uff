@@ -1,0 +1,26 @@
+{
+    "name": "ufedev/uff",
+    "authors": [
+        {
+            "name": "Federico Malfasi",
+            "email": "federico.malfasi@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "description": "Framework like Express for PHP Stable Version",
+    "type": "library",
+    "minimum-stability": "stable",
+    "homepage": "https://github.com/ufedev/ufexpress",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "files": [
+            "src/snippets.php"
+        ],
+        "psr-4": {
+            "Uff\\": "src/uff"
+        }
+    }
+}
