@@ -20,21 +20,30 @@ class Router
     public ?object $req = null;
     public $id;
 
+    private function notRepeatPath($type, $path, $fn)
+    {
+        if (!in_array($path, array_keys($this->$type))) {
+            $this->$type[$path] = $fn;
+        }
+    }
     final public function get(string $path, callable ...$fn): void
     {
-        $this->get[$path] = $fn;
+
+        $this->notRepeatPath("get", $path, $fn);
         if (!in_array($fn, $this->options)) {
             $this->options[$path] = $fn;
         }
     }
     final public function post(string $path, callable ...$fn): void
     {
-        $this->post[$path] = $fn;
+
+        $this->notRepeatPath("post", $path, $fn);
     }
     final public function put(string $path, callable ...$fn): void
     {
 
-        $this->put[$path] = $fn;
+        $this->notRepeatPath("put", $path, $fn);
+
         if (!in_array($fn, $this->options)) {
             $this->options[$path] = $fn;
         }
@@ -42,7 +51,8 @@ class Router
     final public function delete(string $path, callable ...$fn): void
     {
 
-        $this->delete[$path] = $fn;
+        $this->notRepeatPath("delete", $path, $fn);
+
         if (!in_array($fn, $this->options)) {
             $this->options[$path] = $fn;
         }
@@ -126,11 +136,11 @@ class Router
 
     private function compareMethods(array $data = [], string $method = "GET"): object
     {
-        $params = [];
+        $params = $_GET;
         $body = [];
         foreach ($data as $key => $value) {
             if ($key === "params") {
-                $params = $value;
+                $params = array_merge($value, $params);
             } else if ($key === "body") {
                 $body = $value;
             }
