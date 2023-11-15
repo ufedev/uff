@@ -109,7 +109,7 @@ class Router
                 }
             }
             $data = file_get_contents("php://input");
-            $json_type = json_decode($data);
+            $json_type = json_decode($data, true);
             if ($json_type && $data !== "") {
                 $this->req = $this->compareMethods(["params" => $params ?? [], "body" => $json_type ?? []], $method);
             } else {
@@ -120,7 +120,7 @@ class Router
         } else {
 
             $data = file_get_contents("php://input");
-            $json_type = json_decode($data);
+            $json_type = json_decode($data, true);
             if ($json_type && $data !== "") {
                 $this->req = $this->compareMethods(["params" => $params ?? [], "body" => $json_type ?? []], $method);
             } else {
@@ -153,13 +153,13 @@ class Router
         } elseif ($method === "POST") {
             $req = [
                 "params" => (array)$params,
-                "body" => (array)$body,
+                "body" => $body,
                 "files" => (array)$_FILES
             ];
         } elseif ($method === "PUT") {
             $req = [
                 "params" => (array)$params,
-                "body" => (array)$body
+                "body" => $body
             ];
         } elseif ($method === "DELETE") {
             $req = [
